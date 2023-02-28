@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  postgres-sample-auth:
+    image: postgres:14.1
+    container_name: postgres-sample-auth
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=sample-auth-db
+      - POSTGRES_USER=sample-auth-user
+      - POSTGRES_PASSWORD=qwer1234!
+
+  redis:
+    image: redis:alpine
+    command: redis-server --port 6379
+    container_name: redis_boot
+    hostname: redis
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 6379:6379
+
+  sample-auth-server:
+    image: sample-auth-server:0.0.1
+    command: |
+      bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    restart: always
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./app:/sample-auth-server/app
+      - ./migrations:/sample-auth-server/migrations
+    environment:
+      - DATABASE=sample-auth-db
+      - DB_ADDRESS=postgres-sample-auth
+      - DB_USER=sample-auth-user
+      - DB_PASSWORD=qwer1234!
+      - DB_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_CHANNEL=sample_auth_channel
+      - TIMEOUT_TERM=1
+      - ENV=dev
+      - PUBSUB_STOPWORD=STOP
+      - LOGGER_NAME=Sample-Auth-Server
+      - SESSION_SECRET_KEY=sample-session-secret
+      - PWD_CONTEXT_SCHEME=bcrypt
+    depends_on:
+      - postgres-sample-auth
+      - redis
