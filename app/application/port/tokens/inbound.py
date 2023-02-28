@@ -7,22 +7,27 @@ from app.adapter.api.auth.responses import Token
 
 @runtime_checkable
 class AbstractTokenUsecase(Protocol):
-    """ Python doesn't have interface keyword, 
+    """ Python doesn't have interface keyword,
         so implement interface class
-        through duck-typing 
+        through duck-typing
     """
-    def create_token(self, user: User, token_type: str, 
+    @classmethod
+    def create_token(cls, user: User, token_type: str,
                             expires_delta: Optional[timedelta] = None) -> Token:
         ...
 
-    def validate_token(self, token: str) -> bool:
+    @classmethod
+    def validate_token(cls, token: str) -> bool:
         ...
 
-    def get_id_from_token(self, token: str) -> str:
+    @classmethod
+    def get_id_from_token(cls, token: str) -> str:
         ...
 
-    def get_role_from_token(self, token: str) -> str:
+    @classmethod
+    def get_role_from_token(cls, token: str) -> str:
         ...
 
+    @classmethod
     def get_token_type_from_token(cls, token: str) -> str:
         ...

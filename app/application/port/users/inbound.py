@@ -6,9 +6,9 @@ from app.adapter.api.users.requests import UserCreateRequest
 
 @runtime_checkable
 class AbstractUserUsecase(Protocol):
-    """ Python doesn't have interface keyword, 
+    """ Python doesn't have interface keyword,
         so implement interface class
-        through duck-typing 
+        through duck-typing
     """
     async def create_one_user(self, user_info: UserCreateRequest) -> Optional[User]:
         ...

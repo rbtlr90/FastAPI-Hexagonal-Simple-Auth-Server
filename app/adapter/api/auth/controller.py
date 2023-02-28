@@ -2,7 +2,6 @@ import traceback
 
 from fastapi import APIRouter, Depends, Header, HTTPException, status
 
-from app.loader import get_session
 from app.logger import logger
 from app.adapter.api.auth.requests import LoginInfo
 from app.adapter.api.auth.responses import AccessToken, Token
@@ -24,7 +23,7 @@ router = APIRouter(
     response_model=Token,
     status_code=status.HTTP_201_CREATED,
 )
-async def login(login_info: LoginInfo, 
+async def login(login_info: LoginInfo,
                 user_usecase = Depends(user_use_case),
                 token_usecase = Depends(auth_use_case)):
     try:
@@ -46,7 +45,7 @@ async def login(login_info: LoginInfo,
         logger.error(traceback.format_exc(limit=None))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            message="Internal Server Error",
+            detail="Internal Server Error",
         ) from e
 
 @router.get(

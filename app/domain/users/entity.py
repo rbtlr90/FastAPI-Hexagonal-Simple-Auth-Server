@@ -1,7 +1,7 @@
 import os
 
 from datetime import datetime
-from typing import Optional, List
+from typing import List
 
 from passlib.context import CryptContext
 

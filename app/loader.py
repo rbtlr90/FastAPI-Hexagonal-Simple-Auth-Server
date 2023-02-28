@@ -5,11 +5,9 @@ import socketio
 
 from app.config.redis import RedisSettings
 from app.config.postgres import DatabaseSettings
-from app.logger import logger
 
 database_settings = DatabaseSettings()
 redis_settings = RedisSettings()
-# logger.info(redis_settings)
 
 
 engine = create_async_engine(
@@ -29,8 +27,6 @@ async def get_session() -> AsyncSession:
         await sess.close()
 
 def get_redis_conn() -> aioredis.Redis:
-    # redis_settings = RedisSettings()
-    # logger.info(redis_settings)
     return aioredis.Redis.from_url(
         f"redis://{redis_settings.host}", encoding="utf-8", decode_responses=True
     )

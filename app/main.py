@@ -12,7 +12,7 @@ from app.adapter.api.health.controller import router as health_router
 from app.adapter.api.users.controller import router as user_router
 from app.adapter.api.auth.controller import router as auth_router
 from app.logger import logger
-from app.loader import sio, asgi_app
+from app.loader import sio, asgi_app    # pylint: disable=unused-import
 
 SESSION_SECRET_KEY = os.environ.get('SESSION_SECRET_KEY', 'sample-session-secret')
 

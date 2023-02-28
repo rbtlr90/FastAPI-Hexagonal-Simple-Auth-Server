@@ -9,7 +9,7 @@ from app.domain.tokens.vo import JWT
 
 class TokenUsecaseImpl(AbstractTokenUsecase):
     @classmethod
-    def create_token(cls, user: User, token_type: str, 
+    def create_token(cls, user: User, token_type: str,
                         expires_delta: Optional[timedelta] = None) -> Token:
         return JWT(user, token_type, expires_delta).jwt_token
 

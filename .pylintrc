@@ -1,9 +1,15 @@
 [MASTER]
 
 disable=
-    C0114,  #  module level docstring
-    C0115   # class level docstring
-
+    C0114,  # module level docstring
+    C0115,  # class level docstring
+    C0116,  # missing-function-docstring
+    C0103,  # invalid-name
+    W1203,  # logging-fstring-interpolation
+    W0231,  # super-init-not-called
+    R0801,  # duplicate-code
+    R0903,  # too-few-public-methods
+    E0611,  # no-name-in-module
 
 ignore=migrations,.venv
 
