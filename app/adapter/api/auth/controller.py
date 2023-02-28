@@ -8,7 +8,7 @@ from app.adapter.api.auth.responses import AccessToken, Token
 from app.adapter.api.users.dependencies import user_use_case
 from app.adapter.api.auth.dependencies import auth_use_case
 from app.domain.users.exceptions import bad_request_exception, not_found_exception
-from app.domain.tokens.exceptions import invalid_token_exception
+from app.domain.tokens.exceptions import credential_exception
 
 router = APIRouter(
     prefix="/api/v1/auth",
@@ -58,7 +58,7 @@ async def refresh_access_token(user_usecase = Depends(user_use_case),
                                 authorization: str = Header(...)):
     token = authorization.split(" ")[-1]
     if not token_usecase.validate_token(token):
-        raise invalid_token_exception
+        raise credential_exception
 
     if token_usecase.get_token_type_from_token(token) != "refresh":
         raise bad_request_exception
